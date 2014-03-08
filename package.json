@@ -1,0 +1,15 @@
+{
+  "name": "flymake",
+  "main": "./lib/flymake",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A short description of your package",
+  "activationEvents": ["flymake:toggle"],
+  "repository": "https://github.com/atom/flymake",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
