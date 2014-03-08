@@ -3,11 +3,12 @@ FlymakeView = require './flymake-view'
 module.exports =
   flymakeView: null
 
+  # Atom stuff
   activate: (state) ->
-    @flymakeView = new FlymakeView(state.flymakeViewState)
+
 
   deactivate: ->
-    @flymakeView.destroy()
+
 
   serialize: ->
-    flymakeViewState: @flymakeView.serialize()
+    
