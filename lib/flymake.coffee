@@ -1,8 +1,12 @@
+Maker = require('./maker')
+
 module.exports =
   flymakeView: null
+  maker: null
 
   # Atom stuff
   activate: (state) ->
+    @maker = new Maker()
     @registerEvents()
 
 
@@ -17,14 +21,21 @@ module.exports =
     atom.workspace.eachEditor (editor) =>
       editor.on 'saved contents-modified', =>
         console.log "Event fired"
-        runner = @debounce 5000, =>
+        runner = @debounce 1, => # debouce 5000?
           console.log "In debounce"
-          @make(editor)
+          @maker.make editor.getTitle(), editor.getText(), @editorGrammar(editor), (err, matches)=>
+            if err
+              console.log "Error occured, #{err}"
+            else
+              @handleMatches editor, matches
         runner()
 
-  make: ->
-    console.log "I would be making"
+  handleMatches: (editor, matches) =>
+    console.log matches
 
+  editorGrammar: (editor) ->
+    grammar = editor.getGrammar()
+    if grammar == atom.syntax.nullGrammar then "Plain Text" else grammar.name
 
   # Utils
   debounce: (wait, callback) ->
