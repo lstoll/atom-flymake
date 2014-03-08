@@ -21,7 +21,7 @@ module.exports =
     atom.workspace.eachEditor (editor) =>
       editor.on 'saved contents-modified', =>
         console.log "Event fired"
-        runner = @debounce 1, => # debouce 5000?
+        runner = @debounce 1000, =>
           console.log "In debounce"
           @maker.make editor.getTitle(), editor.getText(), @editorGrammar(editor), (err, matches)=>
             if err
