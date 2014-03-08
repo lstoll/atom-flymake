@@ -42,6 +42,9 @@ module.exports =
     boundDisplayError = (match) =>
       @displayError(editor, match)
 
+    if matches[0]
+      @updateStatusbar matches[0]
+
     boundDisplayError match for match in matches
 
 
@@ -63,7 +66,9 @@ module.exports =
     gutterRow.attr('title', message)
     gutterRow.addClass('flymake-line-number')
 
-
+  # Will display the passed match in the status bar
+  updateStatusbar: (match) ->
+    atom.workspaceView.statusBar.appendLeft('<span id="flymake-statusbar" class="inline-block">Flymake ' + match.line + ': ' + match.message + '</span>')
 
   editorGrammar: (editor) ->
     grammar = editor.getGrammar()
