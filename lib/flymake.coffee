@@ -30,8 +30,40 @@ module.exports =
               @handleMatches editor, matches
         runner()
 
-  handleMatches: (editor, matches) =>
-    console.log matches
+  handleMatches: (editor, matches) ->
+    editorView = atom.workspaceView.getActiveView()
+
+    # Clean out UI stuff
+    editorView.resetDisplay()
+    editorView.gutter.find('.flymake-line-number').removeClass('flymake-line-number')
+    atom.workspaceView.statusBar.find('#flymake-statusbar').remove();
+
+    # Do it
+    boundDisplayError = (match) =>
+      @displayError(editor, match)
+
+    boundDisplayError match for match in matches
+
+
+
+  displayError: (editor, match) ->
+    message = match['message']
+    line = match['line']
+    row = line - 1
+
+    editorView = atom.workspaceView.getActiveView()
+
+    gutter = editorView.gutter
+    bufferRange = editor.bufferRangeForBufferRow(row)
+    screenRange = editor.screenRangeForBufferRange(bufferRange)
+    lineEl = editorView.lineElementForScreenRow(screenRange.start.row)
+    lineEl.addClass('flymake-line')
+
+    gutterRow = gutter.find(gutter.getLineNumberElement(row))
+    gutterRow.attr('title', message)
+    gutterRow.addClass('flymake-line-number')
+
+
 
   editorGrammar: (editor) ->
     grammar = editor.getGrammar()

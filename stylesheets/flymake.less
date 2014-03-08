@@ -4,5 +4,18 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-.flymake {
+.flymake-line {
+	background-color: fade(@background-color-error, 20%);
+}
+
+.editor {
+	.gutter {
+		.flymake-line-number {
+			color: @text-color-error !important;
+			opacity: 1;
+			&:hover {
+				background-color: @background-color-highlight;
+			}
+		}
+	}
 }
